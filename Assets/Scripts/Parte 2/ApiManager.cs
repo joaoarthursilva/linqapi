@@ -33,7 +33,7 @@ public class ApiManager : MonoBehaviour
 
     [Header("Alignment field")] public APIListResponse alignmentListResponse;
 
-    public List<Alignament> allAlignment;
+    public List<Alignment> allAlignment;
 
     [Header("Weapon Fields")] public EquipmentCategory weaponListResponse;
     public List<Weapon> allWeapons;
@@ -85,10 +85,10 @@ public class ApiManager : MonoBehaviour
 
     public List<Trait> traits;
 
-    public void LoadRaceTraits(Race p_race)
+    public void LoadRaceTraits(Race race)
     {
         traits.Clear();
-        StartCoroutine(_TraitsGetRequest(p_race));
+        StartCoroutine(_TraitsGetRequest(race));
     }
 
     public void LoadClassProficiencies(Class c)
@@ -100,11 +100,6 @@ public class ApiManager : MonoBehaviour
 
     private IEnumerator ClassProficienciesGetRequest(Class c)
     {
-        // using UnityWebRequest traitsWebRequest =
-        // UnityWebRequest.Get("https://www.dnd5eapi.co" + "/api/races/" + race.index + "/traits");
-        // yield return traitsWebRequest.SendWebRequest();
-
-        // race.traits = JsonUtility.FromJson<Traits>(traitsWebRequest.downloadHandler.text);
         var proficiencies = c.proficiencies;
 
         for (var i = 0; i < proficiencies.Length; i++)
@@ -175,7 +170,7 @@ public class ApiManager : MonoBehaviour
 
             if (eachAlignWebRequest.responseCode == 200)
             {
-                allAlignment.Add(JsonUtility.FromJson<Alignament>(eachAlignWebRequest.downloadHandler.text));
+                allAlignment.Add(JsonUtility.FromJson<Alignment>(eachAlignWebRequest.downloadHandler.text));
             }
         }
     }
@@ -245,14 +240,14 @@ public class Race
 public class AbilityBonus
 {
     public int bonus;
-    public INUClass ability_score;
+    public IndexNameUrlClass ability_score;
 }
 
 [Serializable]
 public class Traits
 {
     public int count;
-    public INUClass[] results;
+    public IndexNameUrlClass[] results;
 }
 
 [Serializable]
@@ -270,8 +265,8 @@ public class Class
     public string index;
     public string name;
     public StartingEquipment[] starting_equipment;
-    public List<INUClass> starting_equipment_options;
-    public INUClass[] proficiencies;
+    public List<IndexNameUrlClass> starting_equipment_options;
+    public IndexNameUrlClass[] proficiencies;
 }
 
 [Serializable]
@@ -279,14 +274,14 @@ public class EquipmentCategory
 {
     public string index;
     public string name;
-    public INUClass[] equipment;
+    public IndexNameUrlClass[] equipment;
 }
 
 [Serializable]
 public class StartingEquipment
 {
     public int quantity;
-    public INUClass equipment;
+    public IndexNameUrlClass equipment;
 }
 
 [Serializable]
@@ -301,20 +296,20 @@ public class StartingEquipmentOptions
 [Serializable]
 public class OptionSet
 {
-    public string option_set_type;
-    public Option[] options_array;
+    public string optionSetType;
+    public Option[] OptionsArray;
 }
 
 [SerializeField]
 public class Option
 {
-    public string option_type;
-    public INUClass item;
+    public string OptionType;
+    public IndexNameUrlClass Item;
 }
 
 
 [Serializable]
-public class Alignament
+public class Alignment
 {
     public string index;
     public string name;
@@ -332,7 +327,7 @@ public class Weapon
     public string url;
     public string[] desc;
     public string[] special;
-    public INUClass equipment_category;
+    public IndexNameUrlClass equipment_category;
     public string weapon_category;
     public string weapon_range;
     public string category_range;
@@ -354,7 +349,7 @@ public class Range
 public class DamageData
 {
     public string damage_dice;
-    public INUClass damage_type;
+    public IndexNameUrlClass damage_type;
 }
 
 [Serializable]
@@ -362,11 +357,11 @@ public class Proficiency
 {
     public string index;
     public string name;
-    public string desc; //there's no description on API
+    public string desc;
 }
 
 [Serializable]
-public class INUClass
+public class IndexNameUrlClass
 {
     public string index;
     public string name;
@@ -378,5 +373,5 @@ public class INUClass
 public class APIListResponse
 {
     public int count;
-    public INUClass[] results;
+    public IndexNameUrlClass[] results;
 }
